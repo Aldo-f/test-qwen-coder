@@ -1,68 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Tools - PDF, Password Generator, URL Checker & More</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <h1>🛠️ Online Tools</h1>
-            <p class="subtitle">Free online tools for PDF, passwords, URLs, and more</p>
-            
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="Search tools...">
-                <div id="category-filters" class="category-filters"></div>
-                <div id="tag-filters" class="tag-filters"></div>
-                <div id="results-count" class="results-count"></div>
-            </div>
-        </div>
-    </header>
-
-    <main class="container main-content">
-        <div id="tools-grid" class="tools-grid"></div>
-        
-        <!-- Tool Modal -->
-        <div id="tool-modal" class="modal">
-            <div class="modal-content">
-                <div id="modal-content"></div>
-            </div>
-        </div>
-    </main>
-
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-left">
-                    <p>&copy; 2025 Online Tools. Free online tools for everyone.</p>
-                </div>
-                <div class="footer-center">
-                    <p>Version: <span id="app-version">Loading...</span></p>
-                    <p>Last Build: <span id="build-date">Loading...</span></p>
-                </div>
-                <div class="footer-right">
-                    <a href="?test=true" id="test-link" style="display:none;">🧪 Run Tests</a>
-                </div>
-            </div>
-            <p class="footer-note">Easy to add more tools! Follow the MVC pattern in models/, views/, controllers/.</p>
-        </div>
-    </footer>
-
-    <!-- MVC Architecture -->
-    <script src="tools.js"></script>
-    <script src="models/tool-models.js"></script>
-    <script src="views/tool-view.js"></script>
-    <script src="controllers/tool-controller.js"></script>
-    
-    <!-- Main Application -->
-    <script src="app.js"></script>
-    
-    <!-- Legacy support -->
-    <script src="pdf-lib.esm.min.js"></script>
-    
-    <!-- Unit Tests -->
-    <script src="tests/unit-tests.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tools App</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

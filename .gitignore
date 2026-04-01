@@ -2,81 +2,39 @@
 # Dependencies
 node_modules/
 
-# Logs and temp files
-*.log
-*.tmp
+# Build artifacts
+dist/
+build/
+*.min.js
+*.min.mjs
+*.min.d.ts
+*.min.d.mts
 
-# Environment
+# Environment variables
 .env
 .env.local
-.env.*
+*.env.*
 
-# Editors
+# IDE and editor files
 .vscode/
 .idea/
+*.swp
+*.swo
+*.tmp
 
 # OS generated files
 .DS_Store
 Thumbs.db
 
-# Build artifacts
-dist/
-build/
-target/
-*.o
-*.obj
-*.out
+# Logs
+*.log
 
-# Python specific
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-*.so
-.coverage
+# Coverage
+coverage/
 htmlcov/
-.coverage.*
-.pytest_cache/
-.mypy_cache/
+.coverage
 
-# Java specific
-*.class
-*.jar
-*.war
-*.ear
-*.nar
-*.hprof
-.hpl
-nbproject/
-nbbuild/
-nbdist/
-.netbeans/
-.netbeans_preferences
-
-# Go specific
-*.exe
-*.dll
-*.so
-*.dylib
-*.test
-*.prof
-*.out
-
-# Ruby specific
-*.gem
-*.rbc
-.bundle/
-vendor/bundle/
-.ruby-version
-.rbenv-vars
-
-# Node.js specific
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Compression files
+# Compressed files
 *.zip
 *.gz
 *.tar
