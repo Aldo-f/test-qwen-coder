@@ -1,7 +1,7 @@
-// Import pdf-lib for PDF processing
-import { PDFDocument, rgb } from './pdf-lib.esm.min.js';
-
 // Tools configuration - Easy to add new tools!
+// Note: pdf-lib is loaded globally via script tag in index.html
+const { PDFDocument, rgb } = PDFLib;
+
 const tools = [
     { id: 'pdf-merge', name: 'Merge PDF', description: 'Combine multiple PDF files', icon: '📄', category: 'PDF', tags: ['merge', 'combine', 'pdf'], render: renderPDFTool('merge') },
     { id: 'pdf-split', name: 'Split PDF', description: 'Extract pages from PDF', icon: '✂️', category: 'PDF', tags: ['split', 'extract', 'pdf'], render: renderPDFTool('split') },
