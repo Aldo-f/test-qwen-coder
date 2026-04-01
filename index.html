@@ -21,7 +21,7 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="container main-content">
         <div id="tools-grid" class="tools-grid"></div>
         
         <!-- Tool Modal -->
@@ -32,11 +32,21 @@
         </div>
     </main>
 
-    <footer>
+    <footer class="site-footer">
         <div class="container">
-            <p>Easy to add more tools! Follow the MVC pattern in models/, views/, controllers/.</p>
-            <button onclick="runAllTests()" style="margin-top:10px; padding:5px 10px; cursor:pointer;">Run Tests</button>
-            <pre id="test-results" style="background:#f4f4f4; padding:10px; margin-top:10px; display:none;"></pre>
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p>&copy; 2025 Online Tools. Free online tools for everyone.</p>
+                </div>
+                <div class="footer-center">
+                    <p>Version: <span id="app-version">Loading...</span></p>
+                    <p>Last Build: <span id="build-date">Loading...</span></p>
+                </div>
+                <div class="footer-right">
+                    <a href="?test=true" id="test-link" style="display:none;">🧪 Run Tests</a>
+                </div>
+            </div>
+            <p class="footer-note">Easy to add more tools! Follow the MVC pattern in models/, views/, controllers/.</p>
         </div>
     </footer>
 

@@ -4,13 +4,55 @@ let activeTagFilter = null;
 let tools = [];
 let appController = null;
 
+// App version and build info
+const APP_VERSION = '1.2.0';
+
 // Check if we should show demo-only tools
 function shouldShowDemoTools() {
     return window.location.search.includes('test=true');
 }
 
+// Update footer with build info
+function updateFooterInfo() {
+    // Set version
+    const versionEl = document.getElementById('app-version');
+    if (versionEl) {
+        versionEl.textContent = APP_VERSION;
+    }
+    
+    // Set build date (using last commit date from GitHub API or current date)
+    const buildDateEl = document.getElementById('build-date');
+    if (buildDateEl) {
+        // Try to get build time from localStorage (set by CI/CD)
+        const storedBuildTime = localStorage.getItem('lastBuildTime');
+        if (storedBuildTime) {
+            const date = new Date(storedBuildTime);
+            buildDateEl.textContent = date.toLocaleString();
+        } else {
+            // Fallback to current date
+            const now = new Date();
+            buildDateEl.textContent = now.toLocaleString();
+            // Store for next visit
+            localStorage.setItem('lastBuildTime', now.toISOString());
+        }
+    }
+    
+    // Show test link only if test=true param is present
+    const testLink = document.getElementById('test-link');
+    if (testLink) {
+        if (shouldShowDemoTools()) {
+            testLink.style.display = 'inline-block';
+        } else {
+            testLink.style.display = 'none';
+        }
+    }
+}
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
+    // Update footer info first
+    updateFooterInfo();
+    
     // Wait for all scripts to load
     setTimeout(() => {
         // Get tools from legacy window.tools or create from ToolModels
