@@ -15,6 +15,9 @@ const tools = [
     { id: 'ping-test', name: 'Ping Test', description: 'Check server latency', icon: '📶', category: 'Network', tags: ['ping', 'latency'], render: renderPingTest }
 ];
 
+// Make tools array globally available for app.js
+window.tools = tools;
+
 // Export functions for global access
 window.renderPDFTool = renderPDFTool;
 window.renderPasswordGenerator = renderPasswordGenerator;
