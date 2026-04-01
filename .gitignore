@@ -9,7 +9,7 @@ node_modules/
 # Environment
 .env
 .env.local
-*.env.*
+.env.*
 
 # Editors
 .vscode/
@@ -23,13 +23,9 @@ Thumbs.db
 dist/
 build/
 target/
-coverage/
-htmlcov/
+*.o
+*.obj
 *.out
-*.exe
-*.dll
-*.so
-*.a
 
 # Python specific
 __pycache__/
@@ -37,11 +33,50 @@ __pycache__/
 *.pyo
 *.pyd
 .Python
-*.egg-info/
-.eggs/
-.wheelhouse/
+*.so
+.coverage
+htmlcov/
+.coverage.*
+.pytest_cache/
+.mypy_cache/
 
-# Compressed files
+# Java specific
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.hprof
+.hpl
+nbproject/
+nbbuild/
+nbdist/
+.netbeans/
+.netbeans_preferences
+
+# Go specific
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.prof
+*.out
+
+# Ruby specific
+*.gem
+*.rbc
+.bundle/
+vendor/bundle/
+.ruby-version
+.rbenv-vars
+
+# Node.js specific
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Compression files
 *.zip
 *.gz
 *.tar
@@ -65,13 +100,4 @@ __pycache__/
 *.tar.xz
 *.tar.zst
 
-# Testing
-.mypy_cache/
-.pytest_cache/
-.coverage
-
-# System
-*.swp
-*.swo
-*~
 ```
