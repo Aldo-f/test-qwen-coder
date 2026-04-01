@@ -1,49 +1,49 @@
 # Online Tools Website
 
-Een website met meerdere online tools, geïnspireerd door:
-- **iLovePDF** - PDF bewerkingstools
-- **LastPass Password Generator** - Wachtwoord generator
+A website with multiple online tools, inspired by:
+- **iLovePDF** - PDF editing tools
+- **LastPass Password Generator** - Password generator
 - **WhereGoes** - URL redirect checker
-- **Fast.com** - Internet snelheidstest
+- **Fast.com** - Internet speed test
 
-## Beschikbare Tools
+## Available Tools
 
-### PDF Tools (zoals iLovePDF)
-- Merge PDF - Combineer meerdere PDF bestanden
-- Split PDF - Splits PDF pagina's
-- Compress PDF - Verklein PDF bestandsgrootte
-- PDF to Word - Converteer PDF naar Word
-- Word to PDF - Converteer Word naar PDF
-- PDF to PowerPoint - Converteer PDF naar PowerPoint
-- PDF to Excel - Converteer PDF naar Excel
-- Edit PDF - Bewerk PDF bestanden
-- Sign PDF - Onderteken PDF documenten
-- Protect PDF - Beveilig PDF met wachtwoord
-- Unlock PDF - Ontgrendel PDF
-- Rotate PDF - Roteer PDF pagina's
+### PDF Tools (like iLovePDF)
+- Merge PDF - Combine multiple PDF files
+- Split PDF - Split PDF pages
+- Compress PDF - Reduce PDF file size
+- PDF to Word - Convert PDF to Word
+- Word to PDF - Convert Word to PDF
+- PDF to PowerPoint - Convert PDF to PowerPoint
+- PDF to Excel - Convert PDF to Excel
+- Edit PDF - Edit PDF files
+- Sign PDF - Sign PDF documents
+- Protect PDF - Secure PDF with password
+- Unlock PDF - Unlock PDF
+- Rotate PDF - Rotate PDF pages
 
 ### Security Tools
-- Password Generator - Genereer sterke wachtwoorden (zoals LastPass)
+- Password Generator - Generate strong passwords (like LastPass)
 
-### URL Tools (zoals WhereGoes)
-- URL Redirect Checker - Controleer URL redirects
-- URL Shortener - Verkort lange URLs
+### URL Tools (like WhereGoes)
+- URL Redirect Checker - Check URL redirects
+- URL Shortener - Shorten long URLs
 
-### Network Tools (zoals Fast.com)
-- Internet Speed Test - Test je internetsnelheid
-- Ping Test - Meet latentie naar servers
+### Network Tools (like Fast.com)
+- Internet Speed Test - Test your internet speed
+- Ping Test - Measure latency to servers
 
-## Functionaliteiten
+## Features
 
-- **Zoeken**: Zoek tools op naam, beschrijving of tags
-- **Categorieën**: Filter tools per categorie (PDF, Security, URL, Network)
-- **Tags**: Filter tools op specifieke tags
-- **Responsive**: Werkt op desktop en mobiel
-- **Makkelijk uitbreidbaar**: Voeg eenvoudig nieuwe tools toe via `tools.js`
+- **Search**: Search tools by name, description, or tags
+- **Categories**: Filter tools by category (PDF, Security, URL, Network)
+- **Tags**: Filter tools by specific tags
+- **Responsive**: Works on desktop and mobile
+- **Easily extensible**: Easily add new tools via `tools.js`
 
-## Nieuwe Tools Toevoegen
+## Adding New Tools
 
-Om een nieuwe tool toe te voegen, bewerk je `tools.js`:
+To add a new tool, edit `tools.js`:
 
 ```javascript
 {
@@ -57,35 +57,35 @@ Om een nieuwe tool toe te voegen, bewerk je `tools.js`:
 }
 ```
 
-Vervolgens maak je een render functie die de HTML voor de tool interface teruggeeft.
+Then create a render function that returns the HTML for the tool interface.
 
-## Gebruik
+## Usage
 
-De website is statisch en kan direct gehost worden op GitHub Pages.
+The website is static and can be directly hosted on GitHub Pages.
 
-### Lokale ontwikkeling
-Open gewoon `index.html` in je browser.
+### Local Development
+Simply open `index.html` in your browser.
 
 ### GitHub Pages
-Push naar je GitHub repository en enable GitHub Pages in de repository settings.
+Push to your GitHub repository and enable GitHub Pages in the repository settings.
 
-## Structuur
+## Structure
 
 ```
 /
-├── index.html      # Hoofdpagina
+├── index.html      # Main page
 ├── styles.css      # Styling
-├── tools.js        # Tool configuratie en functionaliteit
-├── app.js          # Applicatie logica (zoeken, filteren, modals)
-└── README.md       # Documentatie
+├── tools.js        # Tool configuration and functionality
+├── app.js          # Application logic (search, filtering, modals)
+└── README.md       # Documentation
 ```
 
-## Demo Modus
+## Demo Mode
 
-Dit is een demo implementatie. Voor productiefunctionaliteit moeten de tools verbonden worden met backend services of API's:
-- PDF tools: Verbind met een PDF processing backend
-- URL redirect checker: Gebruik een backend proxy om redirects te volgen
-- Speed test: Implementeer echte snelheidstests met grote bestandsdownloads
+This is a demo implementation. For production functionality, tools need to be connected to backend services or APIs:
+- PDF tools: Connect to a PDF processing backend
+- URL redirect checker: Use a backend proxy to follow redirects
+- Speed test: Implement real speed tests with large file downloads
 
 ## License
 
