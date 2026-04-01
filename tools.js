@@ -6,17 +6,24 @@ const tools = [
     { id: 'pdf-merge', name: 'Merge PDF', description: 'Combine multiple PDF files', icon: '📄', category: 'PDF', tags: ['merge', 'combine', 'pdf'], render: renderPDFTool('merge') },
     { id: 'pdf-split', name: 'Split PDF', description: 'Extract pages from PDF', icon: '✂️', category: 'PDF', tags: ['split', 'extract', 'pdf'], render: renderPDFTool('split') },
     { id: 'pdf-compress', name: 'Compress PDF', description: 'Reduce PDF file size', icon: '🗜️', category: 'PDF', tags: ['compress', 'reduce', 'pdf'], render: renderPDFTool('compress') },
-    { id: 'pdf-to-word', name: 'PDF to Word', description: 'Convert PDF to DOCX', icon: '📝', category: 'PDF', tags: ['convert', 'word', 'pdf'], render: renderPDFTool('pdf-to-word') },
-    { id: 'word-to-pdf', name: 'Word to PDF', description: 'Convert DOCX to PDF', icon: '📄', category: 'PDF', tags: ['convert', 'word', 'pdf'], render: renderPDFTool('word-to-pdf') },
+    { id: 'pdf-to-word', name: 'PDF to Word', description: 'Convert PDF to DOCX', icon: '📝', category: 'PDF', tags: ['convert', 'word', 'pdf'], render: renderPDFTool('pdf-to-word'), demoOnly: true },
+    { id: 'word-to-pdf', name: 'Word to PDF', description: 'Convert DOCX to PDF', icon: '📄', category: 'PDF', tags: ['convert', 'word', 'pdf'], render: renderPDFTool('word-to-pdf'), demoOnly: true },
     { id: 'pdf-edit', name: 'Edit PDF', description: 'Add text and annotations', icon: '✏️', category: 'PDF', tags: ['edit', 'annotate', 'pdf'], render: renderPDFTool('edit') },
     { id: 'password-generator', name: 'Password Generator', description: 'Generate secure passwords', icon: '🔑', category: 'Security', tags: ['password', 'security'], render: renderPasswordGenerator },
     { id: 'url-redirect-checker', name: 'URL Redirect Checker', description: 'Track URL redirects', icon: '🔗', category: 'URL', tags: ['url', 'redirect'], render: renderURLChecker },
     { id: 'speed-test', name: 'Speed Test', description: 'Test internet speed', icon: '⚡', category: 'Network', tags: ['speed', 'network'], render: renderSpeedTest },
-    { id: 'ping-test', name: 'Ping Test', description: 'Check server latency', icon: '📶', category: 'Network', tags: ['ping', 'latency'], render: renderPingTest }
+    { id: 'ping-test', name: 'Ping Test', description: 'Check server latency', icon: '📶', category: 'Network', tags: ['ping', 'latency'], render: renderPingTest },
+    { id: 'qr-generator', name: 'QR Code Generator', description: 'Generate QR codes', icon: '📱', category: 'Utility', tags: ['qr', 'code'], render: renderQRGenerator, demoOnly: true },
+    { id: 'color-converter', name: 'Color Converter', description: 'Convert HEX, RGB, HSL', icon: '🎨', category: 'Utility', tags: ['color', 'converter'], render: renderColorConverter, demoOnly: true },
+    { id: 'base64-tool', name: 'Base64 Tool', description: 'Encode/Decode Base64', icon: '🔣', category: 'Utility', tags: ['base64', 'encode'], render: renderBase64Tool, demoOnly: true },
+    { id: 'text-stats', name: 'Text Statistics', description: 'Analyze text', icon: '📊', category: 'Utility', tags: ['text', 'stats'], render: renderTextStats, demoOnly: true },
+    { id: 'lorem-ipsum', name: 'Lorem Ipsum', description: 'Generate placeholder text', icon: '📝', category: 'Utility', tags: ['lorem', 'text'], render: renderLoremIpsum, demoOnly: true }
 ];
 
-// Make tools array globally available for app.js
+// Make tools array globally available for app.js immediately
+window.tools = window.tools || [];
 window.tools = tools;
+window.toolsLoaded = true;
 
 // Export functions for global access
 window.renderPDFTool = renderPDFTool;
@@ -304,3 +311,108 @@ async function runPingTest() {
     btn.disabled = false;
     btn.textContent = 'Test Again';
 }
+
+// New utility tools render functions (demo only)
+function renderQRGenerator() {
+    return `<div class="qr-generator"><p>Enter text or URL to generate QR code:</p><input type="text" id="qr-text" class="text-input" placeholder="https://example.com"><button class="action-btn" onclick="generateQRCode()">Generate QR</button><div id="qr-result" class="qr-result" style="display:none;margin-top:20px;"></div></div>`;
+}
+
+function renderColorConverter() {
+    return `<div class="color-converter"><p>Convert between HEX, RGB, and HSL:</p><input type="color" id="color-picker" value="#3498db" oninput="convertColor(this.value)"><div id="color-result" class="color-result" style="margin-top:20px;"></div></div>`;
+}
+
+function renderBase64Tool() {
+    return `<div class="base64-tool"><textarea id="base64-input" placeholder="Enter text to encode/decode" rows="5" style="width:100%;padding:10px;"></textarea><div style="margin-top:10px;"><button class="action-btn" onclick="encodeBase64()">Encode</button><button class="action-btn" onclick="decodeBase64()">Decode</button></div><div id="base64-result" class="result-area" style="margin-top:15px;"></div></div>`;
+}
+
+function renderTextStats() {
+    return `<div class="text-stats"><textarea id="text-input" placeholder="Enter text to analyze" rows="6" style="width:100%;padding:10px;" oninput="analyzeText()"></textarea><div id="stats-result" class="stats-result" style="margin-top:15px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px;"></div></div>`;
+}
+
+function renderLoremIpsum() {
+    return `<div class="lorem-ipsum"><label>Paragraphs: <input type="number" id="lorem-count" min="1" max="10" value="3" style="width:60px;"></label><button class="action-btn" onclick="generateLorem()">Generate</button><div id="lorem-result" class="lorem-result" style="margin-top:15px;"></div></div>`;
+}
+
+// Utility tool functions
+function generateQRCode() {
+    const text = document.getElementById('qr-text').value;
+    const resultDiv = document.getElementById('qr-result');
+    if (!text) { resultDiv.innerHTML = '<p style="color:#e74c3c;">Enter text first!</p>'; resultDiv.style.display = 'block'; return; }
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}`;
+    resultDiv.innerHTML = `<img src="${qrUrl}" alt="QR Code" style="border:1px solid #ddd;padding:10px;">`;
+    resultDiv.style.display = 'block';
+}
+
+function convertColor(hex) {
+    const resultDiv = document.getElementById('color-result');
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    const hsl = rgbToHsl(r, g, b);
+    resultDiv.innerHTML = `<div style="padding:15px;background:${hex};border-radius:8px;"><p><strong>HEX:</strong> ${hex}</p><p><strong>RGB:</strong> rgb(${r}, ${g}, ${b})</p><p><strong>HSL:</strong> hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)</p></div>`;
+}
+
+function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+    if (max === min) { h = s = 0; }
+    else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+            case g: h = ((b - r) / d + 2) / 6; break;
+            case b: h = ((r - g) / d + 4) / 6; break;
+        }
+    }
+    return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+}
+
+function encodeBase64() {
+    const input = document.getElementById('base64-input').value;
+    document.getElementById('base64-result').innerHTML = `<p><strong>Encoded:</strong></p><code style="background:#f5f5f5;padding:10px;display:block;word-break:break-all;">${btoa(input)}</code>`;
+}
+
+function decodeBase64() {
+    const input = document.getElementById('base64-input').value;
+    try {
+        document.getElementById('base64-result').innerHTML = `<p><strong>Decoded:</strong></p><code style="background:#f5f5f5;padding:10px;display:block;word-break:break-all;">${atob(input)}</code>`;
+    } catch (e) {
+        document.getElementById('base64-result').innerHTML = `<p style="color:#e74c3c;">Invalid Base64 input</p>`;
+    }
+}
+
+function analyzeText() {
+    const text = document.getElementById('text-input').value;
+    const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+    const chars = text.length;
+    const sentences = text.split(/[.!?]+/).filter(s => s.trim()).length;
+    const paragraphs = text.split(/\n\n+/).filter(p => p.trim()).length;
+    const readTime = Math.ceil(words / 200 * 60);
+    document.getElementById('stats-result').innerHTML = `
+        <div style="background:#f8f9fa;padding:15px;border-radius:8px;"><strong>Words:</strong><br>${words}</div>
+        <div style="background:#f8f9fa;padding:15px;border-radius:8px;"><strong>Characters:</strong><br>${chars}</div>
+        <div style="background:#f8f9fa;padding:15px;border-radius:8px;"><strong>Sentences:</strong><br>${sentences}</div>
+        <div style="background:#f8f9fa;padding:15px;border-radius:8px;"><strong>Paragraphs:</strong><br>${paragraphs || 0}</div>
+        <div style="background:#f8f9fa;padding:15px;border-radius:8px;grid-column:span 2;"><strong>Read time:</strong><br>~${readTime} seconds</div>
+    `;
+}
+
+function generateLorem() {
+    const count = parseInt(document.getElementById('lorem-count').value);
+    const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+    let result = '';
+    for (let i = 0; i < count; i++) {
+        result += `<p style="margin-bottom:15px;">${lorem}</p>`;
+    }
+    document.getElementById('lorem-result').innerHTML = result;
+}
+
+// Export new functions
+window.generateQRCode = generateQRCode;
+window.convertColor = convertColor;
+window.encodeBase64 = encodeBase64;
+window.decodeBase64 = decodeBase64;
+window.analyzeText = analyzeText;
+window.generateLorem = generateLorem;

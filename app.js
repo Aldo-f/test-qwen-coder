@@ -4,6 +4,11 @@ let activeTagFilter = null;
 let tools = [];
 let appController = null;
 
+// Check if we should show demo-only tools
+function shouldShowDemoTools() {
+    return window.location.search.includes('test=true');
+}
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     // Wait for all scripts to load
@@ -11,12 +16,18 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get tools from legacy window.tools or create from ToolModels
         const legacyTools = window.tools || [];
         
+        // Filter out demo-only tools unless test=true
+        const filteredTools = legacyTools.filter(tool => {
+            if (!tool.demoOnly) return true;
+            return shouldShowDemoTools();
+        });
+        
         if (window.ToolController && window.ToolView && window.ToolModels) {
             // Use new MVC architecture
             appController = new window.ToolController();
             
             // Convert legacy tools format to work with MVC
-            const toolsData = legacyTools.length > 0 ? legacyTools : [
+            const toolsData = filteredTools.length > 0 ? filteredTools : [
                 { id: 'password-generator', name: 'Password Generator', description: 'Generate secure random passwords', category: 'Security', tags: ['password', 'security', 'generator', 'random'], icon: '🔐' },
                 { id: 'speed-test', name: 'Speed Test', description: 'Test your internet download speed', category: 'Network', tags: ['speed', 'network', 'test', 'bandwidth'], icon: '🚀' },
                 { id: 'ping-test', name: 'Ping Test', description: 'Measure latency to various servers', category: 'Network', tags: ['ping', 'latency', 'network', 'test'], icon: '📡' },
@@ -24,9 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 { id: 'pdf-merge', name: 'Merge PDF', description: 'Combine multiple PDF files into one', category: 'PDF', tags: ['pdf', 'merge', 'combine', 'join'], icon: '📄' },
                 { id: 'pdf-split', name: 'Split PDF', description: 'Separate PDF pages into individual files', category: 'PDF', tags: ['pdf', 'split', 'separate', 'pages'], icon: '✂️' },
                 { id: 'pdf-compress', name: 'Compress PDF', description: 'Reduce PDF file size', category: 'PDF', tags: ['pdf', 'compress', 'optimize', 'size'], icon: '🗜️' },
-                { id: 'pdf-edit', name: 'Edit PDF', description: 'Add text and shapes to PDF', category: 'PDF', tags: ['pdf', 'edit', 'text', 'annotate'], icon: '✏️' },
-                { id: 'pdf-to-word', name: 'PDF to Word', description: 'Convert PDF to Word document', category: 'PDF', tags: ['pdf', 'word', 'convert', 'docx'], icon: '📝' },
-                { id: 'word-to-pdf', name: 'Word to PDF', description: 'Convert Word document to PDF', category: 'PDF', tags: ['word', 'pdf', 'convert', 'docx'], icon: '📄' }
+                { id: 'pdf-edit', name: 'Edit PDF', description: 'Add text and shapes to PDF', category: 'PDF', tags: ['pdf', 'edit', 'text', 'annotate'], icon: '✏️' }
             ];
             
             appController.initialize(toolsData);
@@ -45,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         } else {
             // Fallback to legacy mode
-            tools = legacyTools;
+            tools = filteredTools;
             if (tools.length > 0) {
                 renderToolsGrid(tools);
                 populateCategoryFilter();
