@@ -1,6 +1,16 @@
 // Tools configuration - Easy to add new tools!
 // Note: pdf-lib is loaded globally via script tag in index.html
-const { PDFDocument, rgb } = PDFLib;
+
+let PDFDocument, rgb;
+
+// Initialize when PDFLib is available
+function initPDFLib() {
+    if (typeof PDFLib !== 'undefined') {
+        ({ PDFDocument, rgb } = PDFLib);
+        return true;
+    }
+    return false;
+}
 
 const tools = [
     { id: 'pdf-merge', name: 'Merge PDF', description: 'Combine multiple PDF files', icon: '📄', category: 'PDF', tags: ['merge', 'combine', 'pdf'], render: renderPDFTool('merge') },
