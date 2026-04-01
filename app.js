@@ -1,12 +1,21 @@
 // Main application logic
 
 let activeTagFilter = null;
+let tools = [];
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
-    renderToolsGrid(tools);
-    populateCategoryFilter();
-    populateTagFilters();
+    // Wait for tools to be loaded from tools.js
+    setTimeout(() => {
+        tools = window.tools || [];
+        if (tools.length > 0) {
+            renderToolsGrid(tools);
+            populateCategoryFilter();
+            populateTagFilters();
+        } else {
+            console.error('No tools loaded!');
+        }
+    }, 100);
 });
 
 // Render all tools in the grid
