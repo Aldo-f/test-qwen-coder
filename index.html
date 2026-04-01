@@ -11,37 +11,46 @@
         <div class="container">
             <h1>🛠️ Online Tools</h1>
             <p class="subtitle">Free online tools for PDF, passwords, URLs, and more</p>
+            
             <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Search tools..." onkeyup="filterTools()">
-                <select id="categoryFilter" onchange="filterTools()">
-                    <option value="">All Categories</option>
-                </select>
-                <div id="tagFilters" class="tag-filters"></div>
+                <input type="text" id="search-input" placeholder="Search tools...">
+                <div id="category-filters" class="category-filters"></div>
+                <div id="tag-filters" class="tag-filters"></div>
+                <div id="results-count" class="results-count"></div>
             </div>
         </div>
     </header>
 
     <main class="container">
-        <div id="toolsGrid" class="tools-grid"></div>
+        <div id="tools-grid" class="tools-grid"></div>
         
-        <!-- Tool Modals -->
-        <div id="toolModal" class="modal">
+        <!-- Tool Modal -->
+        <div id="tool-modal" class="modal">
             <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <h2 id="modalTitle"></h2>
-                <div id="modalContent"></div>
+                <div id="modal-content"></div>
             </div>
         </div>
     </main>
 
     <footer>
         <div class="container">
-            <p>Easy to add more tools! Check the tools.js file to extend functionality.</p>
+            <p>Easy to add more tools! Follow the MVC pattern in models/, views/, controllers/.</p>
+            <button onclick="runAllTests()" style="margin-top:10px; padding:5px 10px; cursor:pointer;">Run Tests</button>
+            <pre id="test-results" style="background:#f4f4f4; padding:10px; margin-top:10px; display:none;"></pre>
         </div>
     </footer>
 
-    <script src="pdf-lib.esm.min.js" type="module"></script>
-    <script src="tools.js" type="module"></script>
-    <script src="app.js" type="module"></script>
+    <!-- MVC Architecture -->
+    <script src="models/tool-models.js"></script>
+    <script src="views/tool-view.js"></script>
+    <script src="controllers/tool-controller.js"></script>
+    
+    <!-- Legacy support -->
+    <script src="pdf-lib.esm.min.js"></script>
+    <script src="tools.js"></script>
+    <script src="app.js"></script>
+    
+    <!-- Unit Tests -->
+    <script src="tests/unit-tests.js"></script>
 </body>
 </html>

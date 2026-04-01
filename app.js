@@ -1,26 +1,82 @@
-// Main application logic
+// Main application logic - Updated to use MVC architecture
 
 let activeTagFilter = null;
 let tools = [];
+let appController = null;
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
-    // Wait for tools to be loaded from tools.js
+    // Wait for all scripts to load
     setTimeout(() => {
-        tools = window.tools || [];
-        if (tools.length > 0) {
-            renderToolsGrid(tools);
-            populateCategoryFilter();
-            populateTagFilters();
+        // Get tools from legacy window.tools or create from ToolModels
+        const legacyTools = window.tools || [];
+        
+        if (window.ToolController && window.ToolView && window.ToolModels) {
+            // Use new MVC architecture
+            appController = new window.ToolController();
+            
+            // Convert legacy tools format to work with MVC
+            const toolsData = legacyTools.length > 0 ? legacyTools : [
+                { id: 'password-generator', name: 'Password Generator', description: 'Generate secure random passwords', category: 'Security', tags: ['password', 'security', 'generator', 'random'], icon: '🔐' },
+                { id: 'speed-test', name: 'Speed Test', description: 'Test your internet download speed', category: 'Network', tags: ['speed', 'network', 'test', 'bandwidth'], icon: '🚀' },
+                { id: 'ping-test', name: 'Ping Test', description: 'Measure latency to various servers', category: 'Network', tags: ['ping', 'latency', 'network', 'test'], icon: '📡' },
+                { id: 'url-redirect-checker', name: 'URL Redirect Checker', description: 'Check URL redirects and final destination', category: 'URL', tags: ['url', 'redirect', 'check', 'http'], icon: '🔗' },
+                { id: 'pdf-merge', name: 'Merge PDF', description: 'Combine multiple PDF files into one', category: 'PDF', tags: ['pdf', 'merge', 'combine', 'join'], icon: '📄' },
+                { id: 'pdf-split', name: 'Split PDF', description: 'Separate PDF pages into individual files', category: 'PDF', tags: ['pdf', 'split', 'separate', 'pages'], icon: '✂️' },
+                { id: 'pdf-compress', name: 'Compress PDF', description: 'Reduce PDF file size', category: 'PDF', tags: ['pdf', 'compress', 'optimize', 'size'], icon: '🗜️' },
+                { id: 'pdf-edit', name: 'Edit PDF', description: 'Add text and shapes to PDF', category: 'PDF', tags: ['pdf', 'edit', 'text', 'annotate'], icon: '✏️' },
+                { id: 'pdf-to-word', name: 'PDF to Word', description: 'Convert PDF to Word document', category: 'PDF', tags: ['pdf', 'word', 'convert', 'docx'], icon: '📝' },
+                { id: 'word-to-pdf', name: 'Word to PDF', description: 'Convert Word document to PDF', category: 'PDF', tags: ['word', 'pdf', 'convert', 'docx'], icon: '📄' }
+            ];
+            
+            appController.initialize(toolsData);
+            
+            // Render category and tag filters
+            renderFilters();
+            
+            // Make openToolModal available globally for tool cards
+            window.openToolModal = (toolId) => {
+                appController.openTool(toolId);
+            };
+            
+            // Make closeModal available globally
+            window.closeModal = () => {
+                appController.closeToolModal();
+            };
         } else {
-            console.error('No tools loaded!');
+            // Fallback to legacy mode
+            tools = legacyTools;
+            if (tools.length > 0) {
+                renderToolsGrid(tools);
+                populateCategoryFilter();
+                populateTagFilters();
+            }
         }
-    }, 100);
+    }, 200);
 });
 
-// Render all tools in the grid
+// Render category and tag filters using controller
+function renderFilters() {
+    if (!appController) return;
+    
+    const categoryContainer = document.getElementById('category-filters');
+    const tagContainer = document.getElementById('tag-filters');
+    
+    if (categoryContainer) {
+        const categories = appController.getCategories();
+        window.ToolView.renderCategoryFilters(categories, categoryContainer);
+    }
+    
+    if (tagContainer) {
+        const tags = appController.getTags();
+        window.ToolView.renderTagFilters(tags, tagContainer);
+    }
+}
+
+// Legacy functions for backward compatibility
 function renderToolsGrid(toolsToRender) {
-    const grid = document.getElementById('toolsGrid');
+    const grid = document.getElementById('toolsGrid') || document.getElementById('tools-grid');
+    if (!grid) return;
     grid.innerHTML = '';
     
     toolsToRender.forEach(tool => {
@@ -41,10 +97,10 @@ function renderToolsGrid(toolsToRender) {
     });
 }
 
-// Populate category filter dropdown
 function populateCategoryFilter() {
     const categories = [...new Set(tools.map(tool => tool.category))];
     const select = document.getElementById('categoryFilter');
+    if (!select) return;
     
     categories.forEach(category => {
         const option = document.createElement('option');
@@ -54,11 +110,11 @@ function populateCategoryFilter() {
     });
 }
 
-// Populate tag filters
 function populateTagFilters() {
     const allTags = tools.flatMap(tool => tool.tags);
     const uniqueTags = [...new Set(allTags)];
-    const tagFiltersDiv = document.getElementById('tagFilters');
+    const tagFiltersDiv = document.getElementById('tagFilters') || document.getElementById('tag-filters');
+    if (!tagFiltersDiv) return;
     
     uniqueTags.forEach(tag => {
         const btn = document.createElement('button');
@@ -69,7 +125,6 @@ function populateTagFilters() {
     });
 }
 
-// Toggle tag filter
 function toggleTagFilter(tag, btn) {
     if (activeTagFilter === tag) {
         activeTagFilter = null;
@@ -84,21 +139,16 @@ function toggleTagFilter(tag, btn) {
     filterTools();
 }
 
-// Filter tools based on search, category, and tags
 function filterTools() {
-    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-    const selectedCategory = document.getElementById('categoryFilter').value;
+    const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+    const selectedCategory = document.getElementById('categoryFilter')?.value || '';
     
     const filteredTools = tools.filter(tool => {
-        // Search filter
         const matchesSearch = tool.name.toLowerCase().includes(searchTerm) ||
                              tool.description.toLowerCase().includes(searchTerm) ||
                              tool.tags.some(tag => tag.toLowerCase().includes(searchTerm));
         
-        // Category filter
         const matchesCategory = !selectedCategory || tool.category === selectedCategory;
-        
-        // Tag filter
         const matchesTag = !activeTagFilter || tool.tags.includes(activeTagFilter);
         
         return matchesSearch && matchesCategory && matchesTag;
@@ -107,37 +157,65 @@ function filterTools() {
     renderToolsGrid(filteredTools);
 }
 
-// Open tool modal
 function openToolModal(tool) {
-    const modal = document.getElementById('toolModal');
+    const modal = document.getElementById('toolModal') || document.getElementById('tool-modal');
     const title = document.getElementById('modalTitle');
-    const content = document.getElementById('modalContent');
+    const content = document.getElementById('modalContent') || document.getElementById('modal-content');
     
-    title.textContent = `${tool.icon} ${tool.name}`;
-    content.innerHTML = tool.render();
+    if (!modal || !content) return;
+    
+    if (title) {
+        title.textContent = `${tool.icon} ${tool.name}`;
+    }
+    content.innerHTML = tool.render ? tool.render() : '<p>Tool interface loading...</p>';
     
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
 }
 
-// Close modal
 function closeModal() {
-    const modal = document.getElementById('toolModal');
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto';
+    const modal = document.getElementById('toolModal') || document.getElementById('tool-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
 }
 
-// Close modal when clicking outside
 window.onclick = function(event) {
-    const modal = document.getElementById('toolModal');
+    const modal = document.getElementById('toolModal') || document.getElementById('tool-modal');
     if (event.target === modal) {
         closeModal();
     }
 };
 
-// Close modal with Escape key
 document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
         closeModal();
     }
 });
+
+// Enhanced test runner UI
+window.runAllTests = async function() {
+    const resultsPre = document.getElementById('test-results');
+    if (!resultsPre) return;
+    
+    resultsPre.style.display = 'block';
+    resultsPre.textContent = 'Running tests...\n';
+    
+    // Capture console.log output
+    const originalLog = console.log;
+    const logs = [];
+    console.log = (...args) => {
+        logs.push(args.join(' '));
+        originalLog.apply(console, args);
+    };
+    
+    try {
+        await window.runAllTests();
+        resultsPre.textContent = logs.join('\n');
+    } catch (error) {
+        resultsPre.textContent += `\nError running tests: ${error.message}`;
+    } finally {
+        console.log = originalLog;
+    }
+};
