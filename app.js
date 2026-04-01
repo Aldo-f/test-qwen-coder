@@ -1,7 +1,6 @@
 // Main application logic - Updated to use MVC architecture
 
 let activeTagFilter = null;
-let tools = [];
 let appController = null;
 
 // App version and build info
@@ -95,10 +94,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 appController.closeToolModal();
             };
         } else {
-            // Fallback to legacy mode
-            tools = filteredTools;
-            if (tools.length > 0) {
-                renderToolsGrid(tools);
+            // Fallback to legacy mode - use window.tools from tools.js
+            const legacyTools = window.tools || [];
+            const filteredLegacyTools = legacyTools.filter(tool => {
+                if (!tool.demoOnly) return true;
+                return shouldShowDemoTools();
+            });
+            
+            if (filteredLegacyTools.length > 0) {
+                legacyToolsData = filteredLegacyTools;
+                renderToolsGrid(filteredLegacyTools);
                 populateCategoryFilter();
                 populateTagFilters();
             }
@@ -125,6 +130,8 @@ function renderFilters() {
 }
 
 // Legacy functions for backward compatibility
+let legacyToolsData = [];
+
 function renderToolsGrid(toolsToRender) {
     const grid = document.getElementById('toolsGrid') || document.getElementById('tools-grid');
     if (!grid) return;
@@ -149,7 +156,8 @@ function renderToolsGrid(toolsToRender) {
 }
 
 function populateCategoryFilter() {
-    const categories = [...new Set(tools.map(tool => tool.category))];
+    const toolsToUse = legacyToolsData.length > 0 ? legacyToolsData : (window.tools || []);
+    const categories = [...new Set(toolsToUse.map(tool => tool.category))];
     const select = document.getElementById('categoryFilter');
     if (!select) return;
     
@@ -162,7 +170,8 @@ function populateCategoryFilter() {
 }
 
 function populateTagFilters() {
-    const allTags = tools.flatMap(tool => tool.tags);
+    const toolsToUse = legacyToolsData.length > 0 ? legacyToolsData : (window.tools || []);
+    const allTags = toolsToUse.flatMap(tool => tool.tags);
     const uniqueTags = [...new Set(allTags)];
     const tagFiltersDiv = document.getElementById('tagFilters') || document.getElementById('tag-filters');
     if (!tagFiltersDiv) return;
@@ -191,10 +200,11 @@ function toggleTagFilter(tag, btn) {
 }
 
 function filterTools() {
+    const toolsToUse = legacyToolsData.length > 0 ? legacyToolsData : (window.tools || []);
     const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
     const selectedCategory = document.getElementById('categoryFilter')?.value || '';
     
-    const filteredTools = tools.filter(tool => {
+    const filteredTools = toolsToUse.filter(tool => {
         const matchesSearch = tool.name.toLowerCase().includes(searchTerm) ||
                              tool.description.toLowerCase().includes(searchTerm) ||
                              tool.tags.some(tag => tag.toLowerCase().includes(searchTerm));
