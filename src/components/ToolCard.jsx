@@ -2,7 +2,7 @@ function ToolCard({ tool }) {
   return (
     <a
       href={tool.url}
-      className="block p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 hover:border-blue-200 group"
+      className="block p-6 bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-blue-300 group hover:-translate-y-1"
     >
       <div className="flex items-start gap-4">
         <div className="text-4xl">{tool.icon}</div>
