@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { GET_TOOLS, SEARCH_TOOLS, GET_TOOLS_BY_CATEGORY } from '../api/queries';
 import { fetchToolsMock, searchToolsMock, getToolsByCategoryMock } from '../api/mockApi';
 
