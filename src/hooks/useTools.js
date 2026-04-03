@@ -4,7 +4,7 @@ import { GET_TOOLS, SEARCH_TOOLS, GET_TOOLS_BY_CATEGORY } from '../api/queries';
 import { fetchToolsMock, searchToolsMock, getToolsByCategoryMock } from '../api/mockApi';
 
 // Set to true to use mock data for testing without backend
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true';
 
 export function useTools() {
   const [tools, setTools] = useState([]);
