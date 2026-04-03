@@ -4,26 +4,15 @@ dist/
 build/
 *.css
 *.js
-*.svg
 
 # Dependencies
 node_modules/
 
-# Environment
-.env
-.env.local
-.env.*
+# Logs and temp files
+*.log
+*.tmp
 
 # Editors
 .vscode/
 .idea/
-
-# Logs and temp files
-*.log
-*.tmp
-*.swp
-
-# OS specific
-.DS_Store
-Thumbs.db
 ```
