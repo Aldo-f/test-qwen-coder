@@ -3,8 +3,7 @@ import { renderHook, act, waitFor } from '@testing-library/react';
 import { useTools } from '../hooks/useTools';
 
 // Mock the Apollo Client since we're using mock data
-vi.mock('@apollo/client', () => ({
-  gql: (strings, ...values) => strings.join(''),
+vi.mock('@apollo/client/react', () => ({
   useQuery: vi.fn(() => ({
     data: null,
     loading: false,
