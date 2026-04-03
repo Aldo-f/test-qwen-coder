@@ -4,7 +4,7 @@ import { GET_TOOLS, SEARCH_TOOLS, GET_TOOLS_BY_CATEGORY } from '../api/queries';
 import { fetchToolsMock, searchToolsMock, getToolsByCategoryMock } from '../api/mockApi';
 
 // Set to true to use mock data for testing without backend
-const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true' || true;
+const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true';
 
 export function useTools() {
   const [tools, setTools] = useState([]);
@@ -14,7 +14,7 @@ export function useTools() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  // GraphQL queries (when backend is available)
+  // Only run GraphQL queries when NOT using mock data
   const { 
     data: toolsData, 
     loading: graphqlLoading, 
@@ -29,7 +29,7 @@ export function useTools() {
     loading: searchLoading 
   } = useQuery(SEARCH_TOOLS, {
     variables: { query: searchQuery },
-    skip: !USE_MOCK_DATA && currentMode !== 'search'
+    skip: USE_MOCK_DATA || currentMode !== 'search'
   });
 
   const { 
@@ -37,7 +37,7 @@ export function useTools() {
     loading: categoryLoading 
   } = useQuery(GET_TOOLS_BY_CATEGORY, {
     variables: { category: selectedCategory },
-    skip: !USE_MOCK_DATA || selectedCategory === 'All'
+    skip: USE_MOCK_DATA || selectedCategory === 'All'
   });
 
   useEffect(() => {
