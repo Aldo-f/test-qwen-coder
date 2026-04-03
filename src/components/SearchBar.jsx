@@ -2,7 +2,7 @@ function SearchBar({ onSearch }) {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-
+  
   return (
     <form onSubmit={handleSubmit} className="mb-6">
       <div className="relative">
@@ -10,7 +10,7 @@ function SearchBar({ onSearch }) {
           type="text"
           placeholder="Search tools..."
           onChange={(e) => onSearch(e.target.value)}
-          className="w-full px-4 py-3 pl-12 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+          className="w-full px-4 py-3 pl-12 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-gray-400"
         />
         <svg
           className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"

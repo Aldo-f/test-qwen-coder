@@ -26,10 +26,10 @@ function ToolGrid({ tools, loading, error }) {
   if (error) {
     return (
       <div className="text-center py-12">
-        <div className="text-red-600 text-lg">Error: {error}</div>
+        <div className="text-red-600 text-lg mb-4">Error: {error?.message || error}</div>
         <button
           onClick={() => window.location.reload()}
-          className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
         >
           Retry
         </button>
@@ -40,7 +40,8 @@ function ToolGrid({ tools, loading, error }) {
   if (!tools || tools.length === 0) {
     return (
       <div className="text-center py-12">
-        <div className="text-gray-500 text-lg">No tools found</div>
+        <div className="text-gray-500 text-lg mb-2">No tools found</div>
+        <p className="text-gray-400 text-sm">Try adjusting your search or filter criteria</p>
       </div>
     );
   }
